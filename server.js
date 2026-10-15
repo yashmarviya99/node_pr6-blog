@@ -1,30 +1,38 @@
-const express = require("express")
+const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
+const dotenv = require("dotenv");
 
-const connectDB = require("./src/db/db")
-const blogRoutes = require("./src/routes/blogRoute");
+const connectDB = require("./src/db/db");
+const authRoute = require("./src/routes/authRoute");
+const blogRoute = require("./src/routes/blogRoute");
+
+
+dotenv.config();
 
 const app = express();
 
-// middleware
+// Middleware
 app.use(cors());
 app.use(express.json());
-
-// Blog Route
-app.use("/api/blogs", blogRoutes);
-
-// Home Route
-app.get("/", (req, res) => {
-    res.json({ message: "Blog api is running" });
-});
-
-const PORT = process.env.PORT || 5000;
 
 // Database Connection
 connectDB();
 
-// Start Server
+// Auth Routes
+app.use("/api/auth", authRoute);
+
+// Blog Routes
+app.use("/api/blogs", blogRoute);
+
+// Test Route
+app.get("/", (req, res) => {
+    res.json({
+        message: "Blog API is running"
+    });
+});
+
+const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });

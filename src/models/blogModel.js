@@ -20,6 +20,13 @@ const blogSchema = new mongoose.Schema(
         category: {
             type: String,
             required: true
+        },
+
+        // Blog owner
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true
         }
     },
 
@@ -27,4 +34,5 @@ const blogSchema = new mongoose.Schema(
 );
 
 const Blog = mongoose.model("Blog", blogSchema);
+
 module.exports = Blog;
